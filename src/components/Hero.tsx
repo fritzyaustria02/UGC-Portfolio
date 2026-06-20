@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Gamepad2, User, Twitter, MessageCircle, Palette, Sparkles, ExternalLink, Edit } from "lucide-react";
+import { Gamepad2, User, Twitter, MessageCircle, Palette, Sparkles, ExternalLink, Edit, Mail } from "lucide-react";
 import { SOCIAL_LINKS } from "../data";
 import { usePortfolio } from "../context/PortfolioContext";
 import EditItemModal from "./EditItemModal";
@@ -23,6 +23,8 @@ const IconRenderer = ({ name, className }: { name: string; className?: string })
       return <MessageCircle className={className} />;
     case "Palette":
       return <Palette className={className} />;
+    case "Mail":
+      return <Mail className={className} />;
     default:
       return <User className={className} />;
   }

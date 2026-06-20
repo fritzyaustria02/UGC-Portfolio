@@ -120,11 +120,9 @@ export const USER_INFO = {
 };
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { platform: "Twitter / X", username: "@AyumiHeartPanda", url: "https://twitter.com", iconName: "Twitter" },
-  { platform: "Roblox Group", username: "Panda Heart Studios", url: "https://roblox.com", iconName: "Gamepad2" },
-  { platform: "Roblox Profile", username: "AyumiHeartPanda", url: "https://roblox.com", iconName: "User" },
-  { platform: "Discord", username: "ayumi.heart.panda", url: "https://discord.com", iconName: "MessageCircle" },
-  { platform: "ArtStation", username: "ayumi_modeler", url: "https://artstation.com", iconName: "Palette" }
+  { platform: "Twitter / X", username: "@AyumiHeartPanda", url: "https://x.com/AyumiHeartPanda", iconName: "Twitter" },
+  { platform: "Roblox", username: "AyumiHeartPanda", url: "https://www.roblox.com/users/3485534721/profile", iconName: "User" },
+  { platform: "Gmail / Contact", username: "davevenzon789@gmail.com", url: "mailto:davevenzon789@gmail.com", iconName: "Mail" }
 ];
 
 export const UGC_PRODUCTS: UgcProduct[] = [

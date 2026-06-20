@@ -17,6 +17,7 @@ import {
   GfxItem,
   SfxSample
 } from "../data";
+import customPortfolioState from "../custom_portfolio_state.json";
 
 interface UserInfo {
   name: string;
@@ -85,15 +86,22 @@ const PortfolioContext = createContext<PortfolioContextType | undefined>(undefin
 export function PortfolioProvider({ children }: { children: ReactNode }) {
   const [editMode, setEditMode] = useState<boolean>(false);
   
-  // State variables back up by localStorage
-  const [userInfo, setUserInfoState] = useState<UserInfo>(USER_INFO);
-  const [ugcProducts, setUgcProductsState] = useState<UgcProduct[]>(UGC_PRODUCTS);
-  const [modelAssets, setModelAssetsState] = useState<ModelAsset[]>(MODEL_ASSETS);
-  const [gameProjects, setGameProjectsState] = useState<GameProject[]>(GAME_PROJECTS);
-  const [gfxItems, setGfxItemsState] = useState<GfxItem[]>(GFX_GALLERY);
-  const [sfxSamples, setSfxSamplesState] = useState<SfxSample[]>(SFX_SAMPLES);
+  const initialUserInfo = (customPortfolioState?.userInfo as UserInfo) || USER_INFO;
+  const initialUgc = (customPortfolioState?.ugcProducts as UgcProduct[]) || UGC_PRODUCTS;
+  const initialModels = (customPortfolioState?.modelAssets as ModelAsset[]) || MODEL_ASSETS;
+  const initialGames = (customPortfolioState?.gameProjects as GameProject[]) || GAME_PROJECTS;
+  const initialGfx = (customPortfolioState?.gfxItems as GfxItem[]) || GFX_GALLERY;
+  const initialSfx = (customPortfolioState?.sfxSamples as SfxSample[]) || SFX_SAMPLES;
 
-  // Load from localStorage on initialization
+  // State variables backed up by localStorage and customPortfolioState JSON
+  const [userInfo, setUserInfoState] = useState<UserInfo>(initialUserInfo);
+  const [ugcProducts, setUgcProductsState] = useState<UgcProduct[]>(initialUgc);
+  const [modelAssets, setModelAssetsState] = useState<ModelAsset[]>(initialModels);
+  const [gameProjects, setGameProjectsState] = useState<GameProject[]>(initialGames);
+  const [gfxItems, setGfxItemsState] = useState<GfxItem[]>(initialGfx);
+  const [sfxSamples, setSfxSamplesState] = useState<SfxSample[]>(initialSfx);
+
+  // Load from localStorage on initialization (overrides defaults if present)
   useEffect(() => {
     try {
       const storedUserInfo = localStorage.getItem("ayumi_userInfo");
@@ -123,7 +131,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
           parsed.aboutRight = parsed.aboutRight.replace("4 years", "6 years");
         }
         localStorage.setItem("ayumi_userInfo", JSON.stringify(parsed));
-        setUserInfoState({ ...USER_INFO, ...parsed });
+        setUserInfoState({ ...initialUserInfo, ...parsed });
       }
       if (storedUgc) setUgcProductsState(JSON.parse(storedUgc));
       if (storedModels) setModelAssetsState(JSON.parse(storedModels));
@@ -134,6 +142,46 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
       console.error("Failed to parse stored portfolio elements", e);
     }
   }, []);
+
+  // Auto-sync current React state back to dev server workspace to update custom_portfolio_state.json
+  useEffect(() => {
+    // Only auto-sync while running in local or development environment
+    const isDev = 
+      window.location.hostname.includes("localhost") || 
+      window.location.hostname.includes("run.app") || 
+      window.location.hostname.includes("127.0.0.1") || 
+      window.location.port === "3000";
+
+    if (isDev) {
+      const stateSnapshot = {
+        userInfo,
+        ugcProducts,
+        modelAssets,
+        gameProjects,
+        gfxItems,
+        sfxSamples
+      };
+
+      const timeoutId = setTimeout(() => {
+        fetch("/api/save-portfolio", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(stateSnapshot)
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              console.log("Portfolio changes successfully persisted in local workspace JSON!");
+            }
+          })
+          .catch(err => {
+            console.error("Auto-sync to backend failed:", err);
+          });
+      }, 800);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [userInfo, ugcProducts, modelAssets, gameProjects, gfxItems, sfxSamples]);
 
   // Helper functions to update state and persist
   const updateUserInfo = (updated: Partial<UserInfo>) => {

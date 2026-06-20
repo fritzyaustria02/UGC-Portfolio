@@ -1,0 +1,17 @@
+{
+  "schemas": {
+    "portfolio": {
+      "state": {
+        "fields": {
+          "userInfo": "map",
+          "ugcProducts": "array",
+          "modelAssets": "array",
+          "gameProjects": "array",
+          "gfxItems": "array",
+          "sfxSamples": "array",
+          "updatedAt": "timestamp"
+        }
+      }
+    }
+  }
+}

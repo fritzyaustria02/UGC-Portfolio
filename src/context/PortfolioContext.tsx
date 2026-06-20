@@ -18,6 +18,9 @@ import {
   SfxSample
 } from "../data";
 import customPortfolioState from "../custom_portfolio_state.json";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../lib/firebase";
+
 
 interface UserInfo {
   name: string;
@@ -84,7 +87,16 @@ interface PortfolioContextType {
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
 export function PortfolioProvider({ children }: { children: ReactNode }) {
-  const [editMode, setEditMode] = useState<boolean>(false);
+  // Support enabling Edit Mode via "?edit=true" in URL
+  const [editMode, setEditMode] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("edit") === "true";
+    }
+    return false;
+  });
+
+  const [isFirebaseLoaded, setIsFirebaseLoaded] = useState<boolean>(false);
   
   const initialUserInfo = (customPortfolioState?.userInfo as UserInfo) || USER_INFO;
   const initialUgc = (customPortfolioState?.ugcProducts as UgcProduct[]) || UGC_PRODUCTS;
@@ -101,7 +113,47 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   const [gfxItems, setGfxItemsState] = useState<GfxItem[]>(initialGfx);
   const [sfxSamples, setSfxSamplesState] = useState<SfxSample[]>(initialSfx);
 
-  // Load from localStorage on initialization (overrides defaults if present)
+  // 1. Load from Firebase Cloud Firestore on mount (falls back to local storage if Firestore fails)
+  useEffect(() => {
+    const loadFromFirebase = async () => {
+      try {
+        console.log("Fetching live portfolio data from Cloud Firestore...");
+        const docRef = doc(db, "portfolio", "state");
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.userInfo) setUserInfoState(data.userInfo);
+          if (data.ugcProducts) setUgcProductsState(data.ugcProducts);
+          if (data.modelAssets) setModelAssetsState(data.modelAssets);
+          if (data.gameProjects) setGameProjectsState(data.gameProjects);
+          if (data.gfxItems) setGfxItemsState(data.gfxItems);
+          if (data.sfxSamples) setSfxSamplesState(data.sfxSamples);
+          console.log("Successfully retrieved portfolio data from Firebase Cloud Database!");
+        } else {
+          // Sync current initial snapshot to firebase to seed it on the first run
+          console.log("No data found in Firebase Cloud. Seeding database with default state...");
+          await setDoc(docRef, {
+            userInfo: initialUserInfo,
+            ugcProducts: initialUgc,
+            modelAssets: initialModels,
+            gameProjects: initialGames,
+            gfxItems: initialGfx,
+            sfxSamples: initialSfx,
+            updatedAt: Date.now()
+          });
+        }
+      } catch (err) {
+        console.warn("Unable to load from Firebase Cloud. Falling back to local values:", err);
+      } finally {
+        setIsFirebaseLoaded(true);
+      }
+    };
+
+    loadFromFirebase();
+  }, []);
+
+  // 2. Load from localStorage as extra offline-first backup
   useEffect(() => {
     try {
       const storedUserInfo = localStorage.getItem("ayumi_userInfo");
@@ -131,38 +183,59 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
           parsed.aboutRight = parsed.aboutRight.replace("4 years", "6 years");
         }
         localStorage.setItem("ayumi_userInfo", JSON.stringify(parsed));
-        setUserInfoState({ ...initialUserInfo, ...parsed });
+        // Use local storage values only if Cloud Firestore hasn't finished loading yet 
+        if (!isFirebaseLoaded) {
+          setUserInfoState({ ...initialUserInfo, ...parsed });
+        }
       }
-      if (storedUgc) setUgcProductsState(JSON.parse(storedUgc));
-      if (storedModels) setModelAssetsState(JSON.parse(storedModels));
-      if (storedGames) setGameProjectsState(JSON.parse(storedGames));
-      if (storedGfx) setGfxItemsState(JSON.parse(storedGfx));
-      if (storedSfx) setSfxSamplesState(JSON.parse(storedSfx));
+      
+      if (!isFirebaseLoaded) {
+        if (storedUgc) setUgcProductsState(JSON.parse(storedUgc));
+        if (storedModels) setModelAssetsState(JSON.parse(storedModels));
+        if (storedGames) setGameProjectsState(JSON.parse(storedGames));
+        if (storedGfx) setGfxItemsState(JSON.parse(storedGfx));
+        if (storedSfx) setSfxSamplesState(JSON.parse(storedSfx));
+      }
     } catch (e) {
       console.error("Failed to parse stored portfolio elements", e);
     }
-  }, []);
+  }, [isFirebaseLoaded]);
 
-  // Auto-sync current React state back to dev server workspace to update custom_portfolio_state.json
+  // 3. Auto-sync changes back to Firebase Cloud & local dev server JSON
   useEffect(() => {
-    // Only auto-sync while running in local or development environment
+    // Prevent sync on initialization before cloud data has loaded
+    if (!isFirebaseLoaded) return;
+
+    const stateSnapshot = {
+      userInfo,
+      ugcProducts,
+      modelAssets,
+      gameProjects,
+      gfxItems,
+      sfxSamples,
+      updatedAt: Date.now()
+    };
+
     const isDev = 
       window.location.hostname.includes("localhost") || 
       window.location.hostname.includes("run.app") || 
       window.location.hostname.includes("127.0.0.1") || 
       window.location.port === "3000";
 
-    if (isDev) {
-      const stateSnapshot = {
-        userInfo,
-        ugcProducts,
-        modelAssets,
-        gameProjects,
-        gfxItems,
-        sfxSamples
-      };
+    const timeoutId = setTimeout(() => {
+      // Auto-save: Always write to Firebase Cloud Database so we have dynamic updates on the live deployed URL!
+      console.log("Synchronizing portfolio updates to Cloud database...");
+      const docRef = doc(db, "portfolio", "state");
+      setDoc(docRef, stateSnapshot)
+        .then(() => {
+          console.log("Successfully synchronized portfolio updates to Firebase Cloud Firestore.");
+        })
+        .catch(err => {
+          console.error("Firebase Cloud Firestore synchronization failed:", err);
+        });
 
-      const timeoutId = setTimeout(() => {
+      // Local dev workspace synchronization
+      if (isDev) {
         fetch("/api/save-portfolio", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -175,13 +248,14 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
             }
           })
           .catch(err => {
-            console.error("Auto-sync to backend failed:", err);
+            console.error("Local dev workspace API sync failed:", err);
           });
-      }, 800);
+      }
+    }, 1200);
 
-      return () => clearTimeout(timeoutId);
-    }
-  }, [userInfo, ugcProducts, modelAssets, gameProjects, gfxItems, sfxSamples]);
+    return () => clearTimeout(timeoutId);
+  }, [userInfo, ugcProducts, modelAssets, gameProjects, gfxItems, sfxSamples, isFirebaseLoaded]);
+
 
   // Helper functions to update state and persist
   const updateUserInfo = (updated: Partial<UserInfo>) => {

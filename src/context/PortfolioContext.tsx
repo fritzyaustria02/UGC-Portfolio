@@ -21,6 +21,33 @@ import customPortfolioState from "../custom_portfolio_state.json";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
+// Import actual compiled assets to resolve them to target paths dynamically
+import ayumiAvatar from "../assets/images/ayumi_avatar_1781936439120.jpg";
+import ugcPandaHat from "../assets/images/ugc_panda_hat_1781936455198.jpg";
+import gothStarBlade from "../assets/images/goth_star_blade_1781936470753.jpg";
+import gameThumbnail from "../assets/images/game_thumbnail_1781936488344.jpg";
+
+/**
+ * Maps static file paths or older paths stored in database/config safely to Vite's bundled images
+ * so that they load flawlessly in any environment (including subfolder deployments like GitHub Pages).
+ */
+const resolveBundledUrl = (url: string | any): string | any => {
+  if (typeof url !== "string") return url;
+  if (url.includes("ayumi_avatar_")) {
+    return ayumiAvatar;
+  }
+  if (url.includes("game_thumbnail_")) {
+    return gameThumbnail;
+  }
+  if (url.includes("goth_star_blade_")) {
+    return gothStarBlade;
+  }
+  if (url.includes("ugc_panda_hat_")) {
+    return ugcPandaHat;
+  }
+  return url;
+};
+
 
 interface UserInfo {
   name: string;
@@ -98,11 +125,31 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 
   const [isFirebaseLoaded, setIsFirebaseLoaded] = useState<boolean>(false);
   
-  const initialUserInfo = (customPortfolioState?.userInfo as UserInfo) || USER_INFO;
-  const initialUgc = (customPortfolioState?.ugcProducts as UgcProduct[]) || UGC_PRODUCTS;
-  const initialModels = (customPortfolioState?.modelAssets as ModelAsset[]) || MODEL_ASSETS;
-  const initialGames = (customPortfolioState?.gameProjects as GameProject[]) || GAME_PROJECTS;
-  const initialGfx = (customPortfolioState?.gfxItems as GfxItem[]) || GFX_GALLERY;
+  // Resolve potentially hardcoded paths from static files beforehand
+  const initialUserInfo = customPortfolioState?.userInfo
+    ? { ...customPortfolioState.userInfo, avatar: resolveBundledUrl(customPortfolioState.userInfo.avatar) }
+    : USER_INFO;
+
+  const initialUgc = (customPortfolioState?.ugcProducts as UgcProduct[])?.map(item => ({
+    ...item,
+    image: resolveBundledUrl(item.image)
+  })) || UGC_PRODUCTS;
+
+  const initialModels = (customPortfolioState?.modelAssets as ModelAsset[])?.map(item => ({
+    ...item,
+    image: resolveBundledUrl(item.image)
+  })) || MODEL_ASSETS;
+
+  const initialGames = (customPortfolioState?.gameProjects as GameProject[])?.map(item => ({
+    ...item,
+    thumbnail: resolveBundledUrl(item.thumbnail)
+  })) || GAME_PROJECTS;
+
+  const initialGfx = (customPortfolioState?.gfxItems as GfxItem[])?.map(item => ({
+    ...item,
+    image: resolveBundledUrl(item.image)
+  })) || GFX_GALLERY;
+
   const initialSfx = (customPortfolioState?.sfxSamples as SfxSample[]) || SFX_SAMPLES;
 
   // State variables backed up by localStorage and customPortfolioState JSON
@@ -116,23 +163,6 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   // 1. Load from Firebase Cloud Firestore on mount (falls back to local storage if Firestore fails)
   useEffect(() => {
     const loadFromFirebase = async () => {
-      const migrateUrl = (url: string | any): string | any => {
-        if (typeof url !== "string") return url;
-        if (url.includes("ayumi_avatar_1781930483691.jpg")) {
-          return "/src/assets/images/ayumi_avatar_1781936439120.jpg";
-        }
-        if (url.includes("game_thumbnail_1781930537198.jpg")) {
-          return "/src/assets/images/game_thumbnail_1781936488344.jpg";
-        }
-        if (url.includes("goth_star_blade_1781930519791.jpg")) {
-          return "/src/assets/images/goth_star_blade_1781936470753.jpg";
-        }
-        if (url.includes("ugc_panda_hat_1781930501623.jpg")) {
-          return "/src/assets/images/ugc_panda_hat_1781936455198.jpg";
-        }
-        return url;
-      };
-
       try {
         console.log("Fetching live portfolio data from Cloud Firestore...");
         const docRef = doc(db, "portfolio", "state");
@@ -144,27 +174,27 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
           // Migrate old image references to the new ones
           const cleanUserInfo = data.userInfo ? {
             ...data.userInfo,
-            avatar: migrateUrl(data.userInfo.avatar)
+            avatar: resolveBundledUrl(data.userInfo.avatar)
           } : null;
 
           const cleanUgcProducts = data.ugcProducts ? data.ugcProducts.map((item: any) => ({
             ...item,
-            image: migrateUrl(item.image)
+            image: resolveBundledUrl(item.image)
           })) : null;
 
           const cleanModelAssets = data.modelAssets ? data.modelAssets.map((item: any) => ({
             ...item,
-            image: migrateUrl(item.image)
+            image: resolveBundledUrl(item.image)
           })) : null;
 
           const cleanGameProjects = data.gameProjects ? data.gameProjects.map((item: any) => ({
             ...item,
-            thumbnail: migrateUrl(item.thumbnail)
+            thumbnail: resolveBundledUrl(item.thumbnail)
           })) : null;
 
           const cleanGfxItems = data.gfxItems ? data.gfxItems.map((item: any) => ({
             ...item,
-            image: migrateUrl(item.image)
+            image: resolveBundledUrl(item.image)
           })) : null;
 
           if (cleanUserInfo) setUserInfoState(cleanUserInfo);

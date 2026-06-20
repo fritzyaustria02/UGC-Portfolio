@@ -1,8 +1,311 @@
 {
-  "userInfo": null,
-  "ugcProducts": null,
-  "modelAssets": null,
-  "gameProjects": null,
-  "gfxItems": null,
-  "sfxSamples": null
+  "userInfo": {
+    "title": "UGC Creator • Game Developer • 3D Modeler • SFX & GFX Artist",
+    "ugcDesc": "Browsing virtual Roblox catalog items manufactured, skinned, and distributed by Ayumi. Tap any item to inspect its polygons and details.",
+    "metrics": [
+      {
+        "label": "Total UGC Sales",
+        "value": "N/A"
+      },
+      {
+        "value": "8M+",
+        "label": "Partner Game Visits"
+      },
+      {
+        "value": "100+",
+        "label": "Accessory Catalog Items"
+      },
+      {
+        "label": "Client Satisfaction",
+        "value": "99.2%"
+      }
+    ],
+    "modelTitle": "3D Asset Vault",
+    "gfxTitle": "GFX Marketing Design",
+    "tagline": "Bridging cute aesthetics with sharp goth edges across avatars, games, and experiences.",
+    "name": "AyumiHeartPanda",
+    "avatar": "/src/assets/images/ayumi_avatar_1781936439120.jpg",
+    "modelDesc": "Showcase of low-poly character attachments, environment props, and assets custom modeled, UV unwrapped, and handpainted or baked in Substance.",
+    "aboutRight": "With over 6 years of experience working in Blender and Roblox Studio, my work has powered numerous trending experiences, earning millions of play-sessions. Whether you're looking for ultra-optimized UGC accessories, high-fidelity map design, tailor-made sounds, or jaw-dropping icons—I make it happen.",
+    "ugcTitle": "Virtual Accessory Studio",
+    "sfxDesc": "A studio lounge displaying original soundscapes, button sound bites, UI interface clicks, character feedback vocals, and atmospheric environment loops.",
+    "sfxTitle": "Dynamic SFX Lounge",
+    "gameTitle": "Roblox Game Development",
+    "gfxDesc": "Eye-catching graphic representations of virtual characters. Crafted with raytraced path lighting in Blender Cycles and painted in Photoshop.",
+    "gameDesc": "Immersive, high-performance virtual experiences programmed, scripted, or visually directed within the Luau Luau ecosystem.",
+    "aboutLeft": "Hey there! I am Ayumi, a versatile Roblox-focused creator specializing in designing eye-catching, highly optimized 3D assets, custom game components, SFX, and promotional GFX. I combine adorable, cozy panda elements with a clean black-and-white, dark, star-encrusted goth aesthetic."
+  },
+  "ugcProducts": [
+    {
+      "price": 0,
+      "salesCount": "N/A",
+      "name": "Blonde Messy Wolf cut Hair with White Fedora",
+      "status": "Limited Edition",
+      "image": "https://tr.rbxcdn.com/180DAY-50d5eb4601de04f8f61e8d9dfc860ae9/420/420/HairAccessory/Webp/noFilter",
+      "id": "ugc-custom-1781933064745",
+      "description": "Free ugc",
+      "category": "Head",
+      "link": "https://www.roblox.com/catalog/75811569502710/Blonde-Messy-Wolf-cut-Hair-with-White-Fedora"
+    },
+    {
+      "category": "Head",
+      "description": "Free UGC in the game",
+      "link": "https://www.roblox.com/catalog/96019782244536/Kawaii-Ribbon-Twin-Curls-Hair-Blonde",
+      "salesCount": "N/A",
+      "price": 0,
+      "id": "ugc-1",
+      "image": "https://tr.rbxcdn.com/180DAY-5466ae7a9ffc7f03709a46a84d90393d/420/420/HairAccessory/Webp/noFilter",
+      "status": "Limited Edition",
+      "name": "Kawaii Ribbon Twin Curls Hair (Blonde)"
+    },
+    {
+      "salesCount": "N/A",
+      "price": 0,
+      "status": "Limited Edition",
+      "name": "Toasty Khaki Beige Curly Pigtails",
+      "id": "ugc-3",
+      "image": "https://tr.rbxcdn.com/180DAY-d4161d4b69bc284898a0dc367b60930e/420/420/HairAccessory/Webp/noFilter",
+      "description": "Free UGC in game",
+      "category": "Head",
+      "link": "https://www.roblox.com/catalog/84126370754596/Toasty-Khaki-Beige-Curly-Pigtails"
+    },
+    {
+      "description": "FREE Ugc in game",
+      "category": "Head",
+      "link": "https://www.roblox.com/catalog/122575948920186/Kawaii-K-pop-shiny-brown-high-pigtail-hair",
+      "price": 0,
+      "salesCount": "N/A",
+      "name": "Kawaii K-pop shiny brown high pigtail hair",
+      "status": "Limited Edition",
+      "image": "https://tr.rbxcdn.com/180DAY-10f1c2eee8355a1a8f1289c0d5ea68b0/420/420/HairAccessory/Webp/noFilter",
+      "id": "ugc-4"
+    },
+    {
+      "link": "https://www.roblox.com/catalog/137052557348478/Roblox-Plus-Fedora",
+      "category": "Accessory",
+      "description": "Features roblox plus",
+      "id": "ugc-5",
+      "image": "https://tr.rbxcdn.com/180DAY-aac86fc508f64aed59d076ce6e133132/420/420/Hat/Webp/noFilter",
+      "name": "Roblox Plus Fedora",
+      "status": "Available",
+      "price": 40,
+      "salesCount": "500+"
+    },
+    {
+      "status": "Available",
+      "name": "Roblox Plus Valk",
+      "image": "https://tr.rbxcdn.com/180DAY-ff1b61b03ab4e20e8eb439ec5836eabc/420/420/Hat/Webp/noFilter",
+      "id": "ugc-6",
+      "salesCount": "N/A",
+      "price": 40,
+      "link": "https://www.roblox.com/catalog/103092506137775/Roblox-Plus-Valk",
+      "description": "Features roblox plus",
+      "category": "Accessory"
+    }
+  ],
+  "modelAssets": [
+    {
+      "interactiveDetails": {
+        "textures": "4K PBR (Ambient Occlusion, Roughness, Metallic, Emissive)",
+        "animated": true,
+        "rigged": true
+      },
+      "category": "Weapons",
+      "software": [
+        "Blender",
+        "Substance Painter"
+      ],
+      "polygonCount": "2,420 Tris (Highly Optimized)",
+      "description": "A gorgeous cyber-fantasy blade inspired by stellar eclipses, styled with clean mesh-flow, custom specular highlights, and an active neon edge glow texture.",
+      "id": "model-1",
+      "image": "/src/assets/images/goth_star_blade_1781936470753.jpg",
+      "name": "Midnight Eclipse Blade"
+    }
+  ],
+  "gameProjects": [
+    {
+      "title": "Roll for UGC [Free UGC]",
+      "activePlayers": "200+",
+      "description": "Spin the Dice and test your luck to win awesome UGC items!\nEarn spins, collect rewards, and unlock exclusive items.\n\n✨ Features:\n\n🎯 Roll for limited UGC\n💰 Earn Tokens and free spins\n🔄 Daily rewards system\n🏆 Rare and legendary drops",
+      "features": [
+        "Dynamic day/night system with physics-affected starlight glows.",
+        "Fully customized, animated inventory/shop HUD with sleek visual transitions.",
+        "Custom procedural weapons modularly customized by 3D asset parts."
+      ],
+      "platforms": [
+        "PC",
+        "Mobile",
+        "Console",
+        "VR"
+      ],
+      "genre": "Free in game items",
+      "playLink": "https://www.roblox.com/games/83343070132643/Roll-for-UGC",
+      "id": "game-1",
+      "rating": "84.5% 👍",
+      "role": "Owner/Developer",
+      "visits": "300k+",
+      "thumbnail": "https://tr.rbxcdn.com/180DAY-7cb5ef45fb0f03978be9958c69a372cf/768/432/Image/Webp/noFilter"
+    },
+    {
+      "playLink": "https://www.roblox.com/games/72882283250973/UGC-World",
+      "genre": "Social Hangout & Fashion Catalog",
+      "visits": "625k+",
+      "thumbnail": "https://tr.rbxcdn.com/180DAY-5aef24845619e6d4e7ea8217ba3c9597/768/432/Image/Webp/noFilter",
+      "rating": "91% 👍",
+      "id": "game-2",
+      "role": "Solo Creator (Scripts, Custom Assets, UI/GFX)",
+      "activePlayers": "500+ Concurrent",
+      "features": [
+        "In-game multi-item fitting room connecting directly to Roblox Purchase Prompt system API.",
+        "Interactive DJ table allowing full custom sequence generation through spatial volume grids.",
+        "Rich particle effects systems displaying trailing stardust trails on player avatars."
+      ],
+      "description": "🎁 Unlock exclusive UGC-themed prizes, badges, and in-game bonuses!\n✨ New UGC items and updates added regularly — can you collect them all?",
+      "title": "💎 UGC World! [RELEASE] 💎",
+      "platforms": [
+        "PC",
+        "Mobile",
+        "Console"
+      ]
+    }
+  ],
+  "gfxItems": [
+    {
+      "id": "gfx-1",
+      "softwareUsed": [
+        "Blender (Cycles Premium)",
+        "Adobe Photoshop",
+        "Lightroom"
+      ],
+      "image": "/src/assets/images/game_thumbnail_1781936488344.jpg",
+      "resolution": "1920x1080 (Cinema-HD)",
+      "description": "An epic, highly cinematic title screen display. Highlights deep contrasting moonlit ambiance, soft volume fog, and striking neon spellcraft highlights.",
+      "title": "Celestial Quest Game Thumbnail",
+      "category": "Game Thumbnail"
+    },
+    {
+      "resolution": "512x512",
+      "image": "/src/assets/images/ayumi_avatar_1781936439120.jpg",
+      "softwareUsed": [
+        "Blender",
+        "Adobe Illustrator",
+        "Photoshop"
+      ],
+      "id": "gfx-2",
+      "category": "Game Icon",
+      "title": "Panda Goth App Icon branding",
+      "description": "A bold, graphic mascot branding render. High-contrast white and dark tones, framed key outlines, optimal for roblox explorer icon recognition."
+    },
+    {
+      "id": "gfx-3",
+      "softwareUsed": [
+        "Blender Cycles",
+        "Photoshop CC"
+      ],
+      "image": "/src/assets/images/goth_star_blade_1781936470753.jpg",
+      "resolution": "1080x1350 (Social Showcase)",
+      "description": "Social media conceptual advertisement showing the high-poly wireframes melting digitally into finished custom weapon designs.",
+      "title": "Void-born Scythe showcase graphic",
+      "category": "Render"
+    }
+  ],
+  "sfxSamples": [
+    {
+      "soundConfig": [
+        {
+          "type": "sine",
+          "delay": 0,
+          "frequency": 1200,
+          "duration": 0.1
+        },
+        {
+          "type": "triangle",
+          "delay": 0.05,
+          "frequency": 2400,
+          "duration": 0.2
+        },
+        {
+          "delay": 0.1,
+          "type": "sine",
+          "duration": 0.3,
+          "frequency": 3200
+        }
+      ],
+      "duration": "1.2s",
+      "id": "sfx-1",
+      "description": "A cozy high-pitch starlight shimmer audio cue for item pickups, quest completion pops, and interface menu opens.",
+      "category": "Magic",
+      "title": "Ethereal Star Sparkle Pop"
+    },
+    {
+      "description": "A sweeping energy wind-cutter surge. Blends high sawtooth pitch transitions with low-frequency wind gusts.",
+      "title": "Cosmic Blade Slash (Neon)",
+      "category": "Combat",
+      "soundConfig": [
+        {
+          "type": "sawtooth",
+          "delay": 0,
+          "frequency": 180,
+          "duration": 0.3
+        },
+        {
+          "type": "sawtooth",
+          "delay": 0,
+          "frequency": 650,
+          "duration": 0.4
+        },
+        {
+          "frequency": 90,
+          "duration": 0.3,
+          "type": "sine",
+          "delay": 0.1
+        }
+      ],
+      "id": "sfx-2",
+      "duration": "0.8s"
+    },
+    {
+      "description": "A deep atmospheric space hum. Ideal for transitions, loading screens, and entering custom goth-haunted dungeons.",
+      "category": "Ambient",
+      "title": "Sub-harmonic Void Pulse",
+      "soundConfig": [
+        {
+          "frequency": 55,
+          "duration": 1.5,
+          "type": "sine",
+          "delay": 0
+        },
+        {
+          "delay": 0.1,
+          "type": "triangle",
+          "duration": 1.8,
+          "frequency": 110
+        }
+      ],
+      "duration": "2.1s",
+      "id": "sfx-3"
+    },
+    {
+      "description": "A classic retro game UI hover sound. A clean square-wave double pulse that signals action triggers.",
+      "category": "UI Sync",
+      "title": "Retro Goth Pixel Blip",
+      "soundConfig": [
+        {
+          "delay": 0,
+          "type": "square",
+          "duration": 0.05,
+          "frequency": 620
+        },
+        {
+          "frequency": 840,
+          "duration": 0.12,
+          "type": "square",
+          "delay": 0.04
+        }
+      ],
+      "id": "sfx-4",
+      "duration": "0.4s"
+    }
+  ],
+  "updatedAt": 1781935630488
 }

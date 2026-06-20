@@ -4,10 +4,10 @@
  */
 
 // Import generated imagery to display on the page
-import ayumiAvatar from "@/src/assets/images/ayumi_avatar_1781930483691.jpg";
-import ugcPandaHat from "@/src/assets/images/ugc_panda_hat_1781930501623.jpg";
-import gothStarBlade from "@/src/assets/images/goth_star_blade_1781930519791.jpg";
-import gameThumbnail from "@/src/assets/images/game_thumbnail_1781930537198.jpg";
+import ayumiAvatar from "@/src/assets/images/ayumi_avatar_1781936439120.jpg";
+import ugcPandaHat from "@/src/assets/images/ugc_panda_hat_1781936455198.jpg";
+import gothStarBlade from "@/src/assets/images/goth_star_blade_1781936470753.jpg";
+import gameThumbnail from "@/src/assets/images/game_thumbnail_1781936488344.jpg";
 
 export interface SocialLink {
   platform: string;

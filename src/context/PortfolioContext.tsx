@@ -116,6 +116,23 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   // 1. Load from Firebase Cloud Firestore on mount (falls back to local storage if Firestore fails)
   useEffect(() => {
     const loadFromFirebase = async () => {
+      const migrateUrl = (url: string | any): string | any => {
+        if (typeof url !== "string") return url;
+        if (url.includes("ayumi_avatar_1781930483691.jpg")) {
+          return "/src/assets/images/ayumi_avatar_1781936439120.jpg";
+        }
+        if (url.includes("game_thumbnail_1781930537198.jpg")) {
+          return "/src/assets/images/game_thumbnail_1781936488344.jpg";
+        }
+        if (url.includes("goth_star_blade_1781930519791.jpg")) {
+          return "/src/assets/images/goth_star_blade_1781936470753.jpg";
+        }
+        if (url.includes("ugc_panda_hat_1781930501623.jpg")) {
+          return "/src/assets/images/ugc_panda_hat_1781936455198.jpg";
+        }
+        return url;
+      };
+
       try {
         console.log("Fetching live portfolio data from Cloud Firestore...");
         const docRef = doc(db, "portfolio", "state");
@@ -123,12 +140,40 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
         
         if (docSnap.exists()) {
           const data = docSnap.data();
-          if (data.userInfo) setUserInfoState(data.userInfo);
-          if (data.ugcProducts) setUgcProductsState(data.ugcProducts);
-          if (data.modelAssets) setModelAssetsState(data.modelAssets);
-          if (data.gameProjects) setGameProjectsState(data.gameProjects);
-          if (data.gfxItems) setGfxItemsState(data.gfxItems);
+          
+          // Migrate old image references to the new ones
+          const cleanUserInfo = data.userInfo ? {
+            ...data.userInfo,
+            avatar: migrateUrl(data.userInfo.avatar)
+          } : null;
+
+          const cleanUgcProducts = data.ugcProducts ? data.ugcProducts.map((item: any) => ({
+            ...item,
+            image: migrateUrl(item.image)
+          })) : null;
+
+          const cleanModelAssets = data.modelAssets ? data.modelAssets.map((item: any) => ({
+            ...item,
+            image: migrateUrl(item.image)
+          })) : null;
+
+          const cleanGameProjects = data.gameProjects ? data.gameProjects.map((item: any) => ({
+            ...item,
+            thumbnail: migrateUrl(item.thumbnail)
+          })) : null;
+
+          const cleanGfxItems = data.gfxItems ? data.gfxItems.map((item: any) => ({
+            ...item,
+            image: migrateUrl(item.image)
+          })) : null;
+
+          if (cleanUserInfo) setUserInfoState(cleanUserInfo);
+          if (cleanUgcProducts) setUgcProductsState(cleanUgcProducts);
+          if (cleanModelAssets) setModelAssetsState(cleanModelAssets);
+          if (cleanGameProjects) setGameProjectsState(cleanGameProjects);
+          if (cleanGfxItems) setGfxItemsState(cleanGfxItems);
           if (data.sfxSamples) setSfxSamplesState(data.sfxSamples);
+          
           console.log("Successfully retrieved portfolio data from Firebase Cloud Database!");
         } else {
           // Sync current initial snapshot to firebase to seed it on the first run

@@ -63,11 +63,11 @@ interface PortfolioContextType {
   updateSfxSample: (id: string, updated: Partial<SfxSample>) => void;
   
   // Adding items (optional, but helpful for customization)
-  addUgcProduct: (product: Omit<UgcProduct, "id">) => void;
-  addModelAsset: (asset: Omit<ModelAsset, "id">) => void;
-  addGameProject: (game: Omit<GameProject, "id">) => void;
-  addGfxItem: (gfx: Omit<GfxItem, "id">) => void;
-  addSfxSample: (sfx: Omit<SfxSample, "id">) => void;
+  addUgcProduct: (product: Omit<UgcProduct, "id">) => UgcProduct;
+  addModelAsset: (asset: Omit<ModelAsset, "id">) => ModelAsset;
+  addGameProject: (game: Omit<GameProject, "id">) => GameProject;
+  addGfxItem: (gfx: Omit<GfxItem, "id">) => GfxItem;
+  addSfxSample: (sfx: Omit<SfxSample, "id">) => SfxSample;
 
   // Deleting items
   deleteUgcProduct: (id: string) => void;
@@ -185,64 +185,69 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   };
 
   // Add functionality
-  const addUgcProduct = (product: Omit<UgcProduct, "id">) => {
+  const addUgcProduct = (product: Omit<UgcProduct, "id">): UgcProduct => {
+    const newItem: UgcProduct = {
+      ...product,
+      id: `ugc-custom-${Date.now()}`
+    };
     setUgcProductsState((prev) => {
-      const newItem: UgcProduct = {
-        ...product,
-        id: `ugc-custom-${Date.now()}`
-      };
       const list = [newItem, ...prev];
       localStorage.setItem("ayumi_ugcProducts", JSON.stringify(list));
       return list;
     });
+    return newItem;
   };
 
-  const addModelAsset = (asset: Omit<ModelAsset, "id">) => {
+  const addModelAsset = (asset: Omit<ModelAsset, "id">): ModelAsset => {
+    const newItem: ModelAsset = {
+      ...asset,
+      id: `model-custom-${Date.now()}`
+    };
     setModelAssetsState((prev) => {
-      const newItem: ModelAsset = {
-        ...asset,
-        id: `model-custom-${Date.now()}`
-      };
       const list = [newItem, ...prev];
       localStorage.setItem("ayumi_modelAssets", JSON.stringify(list));
       return list;
     });
+    return newItem;
   };
 
-  const addGameProject = (game: Omit<GameProject, "id">) => {
+  const addGameProject = (game: Omit<GameProject, "id">): GameProject => {
+    const newItem: GameProject = {
+      ...game,
+      id: `game-custom-${Date.now()}`
+    };
     setGameProjectsState((prev) => {
-      const newItem: GameProject = {
-        ...game,
-        id: `game-custom-${Date.now()}`
-      };
       const list = [newItem, ...prev];
       localStorage.setItem("ayumi_gameProjects", JSON.stringify(list));
       return list;
     });
+    return newItem;
   };
 
-  const addGfxItem = (gfx: Omit<GfxItem, "id">) => {
+  const addGfxItem = (gfx: Omit<GfxItem, "id">): GfxItem => {
+    const newItem: GfxItem = {
+      ...gfx,
+      id: `gfx-custom-${Date.now()}`
+    };
     setGfxItemsState((prev) => {
-      const newItem: GfxItem = {
-        ...gfx,
-        id: `gfx-custom-${Date.now()}`
-      };
       const list = [newItem, ...prev];
       localStorage.setItem("ayumi_gfxItems", JSON.stringify(list));
       return list;
     });
+    return newItem;
   };
 
-  const addSfxSample = (sfx: Omit<SfxSample, "id">) => {
+  const addSfxSample = (sfx: Omit<SfxSample, "id">): SfxSample => {
+    const newItem: SfxSample = {
+      ...sfx,
+      id: `sfx-custom-${Date.now()}`
+    };
     setSfxSamplesState((prev) => {
-      const newItem: SfxSample = {
-        ...sfx,
-        id: `sfx-custom-${Date.now()}`
-      };
       const list = [newItem, ...prev];
       localStorage.setItem("ayumi_sfxSamples", JSON.stringify(list));
       return list;
     });
+    return newItem;
   };
 
   // Delete functionality

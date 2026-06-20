@@ -38,12 +38,12 @@ export default function Hero() {
       opacity: 1,
       transition: { staggerChildren: 0.15, delayChildren: 0.1 }
     }
-  };
+  } as const;
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } }
-  };
+  } as const;
 
   return (
     <section id="home" className="relative pt-24 pb-16 md:py-32 overflow-hidden">

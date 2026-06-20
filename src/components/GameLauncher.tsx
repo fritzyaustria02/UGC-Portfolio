@@ -191,9 +191,9 @@ export default function GameLauncher() {
                     
                     {/* Platforms */}
                     <div className="flex gap-1.5 text-slate-500">
-                      {selectedGame.platforms?.includes("PC") && <Laptop className="w-3.5 h-3.5" title="PC compatible" />}
-                      {selectedGame.platforms?.includes("Mobile") && <Smartphone className="w-3.5 h-3.5" title="Mobile compatible" />}
-                      {selectedGame.platforms?.includes("Console") && <Gamepad className="w-3.5 h-3.5" title="Console compatible" />}
+                      {selectedGame.platforms?.includes("PC") && <span title="PC compatible"><Laptop className="w-3.5 h-3.5" /></span>}
+                      {selectedGame.platforms?.includes("Mobile") && <span title="Mobile compatible"><Smartphone className="w-3.5 h-3.5" /></span>}
+                      {selectedGame.platforms?.includes("Console") && <span title="Console compatible"><Gamepad className="w-3.5 h-3.5" /></span>}
                     </div>
                   </div>
 

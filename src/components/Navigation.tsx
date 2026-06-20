@@ -5,13 +5,11 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, Sparkles, Send, Edit, Check } from "lucide-react";
-import { usePortfolio } from "../context/PortfolioContext";
+import { Menu, X, Sparkles, Send } from "lucide-react";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { editMode, setEditMode } = usePortfolio();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,45 +60,12 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* New Portal Edit Toggle Option instead of commissions */}
           <div className="hidden lg:flex items-center gap-4">
-            <button
-              onClick={() => setEditMode(!editMode)}
-              className={`relative group px-4 py-2.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-2 overflow-hidden shadow-lg select-none outline-none ${
-                editMode 
-                  ? "bg-brand-pink border-brand-pink text-white hover:brightness-110 shadow-brand-pink/20" 
-                  : "bg-slate-900/80 border-slate-800 hover:border-brand-pink/40 text-slate-200"
-              }`}
-            >
-              <span className="absolute inset-0 w-full h-full bg-white opacity-0 group-hover:opacity-[5%] transition-opacity" />
-              {editMode ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-white animate-bounce" />
-                  <span>DONE EDITING</span>
-                </>
-              ) : (
-                <>
-                  <Edit className="w-3.5 h-3.5 text-brand-pink" />
-                  <span>EDIT PORTFOLIO</span>
-                </>
-              )}
-            </button>
+            {/* Removed Edit Portfolio toggle to publish finalized design */}
           </div>
 
-          {/* Mobile Edit Mode status and burger */}
+          {/* Mobile burger button */}
           <div className="flex items-center gap-3 lg:hidden">
-            <button
-              onClick={() => setEditMode(!editMode)}
-              className={`p-2 rounded-xl border text-xs font-bold transition-all ${
-                editMode 
-                  ? "bg-brand-pink border-brand-pink text-white" 
-                  : "bg-slate-900 border-slate-805 text-slate-400"
-              }`}
-              title="Toggle Edit Mode"
-            >
-              {editMode ? "✍️ ON" : "✍️ EDIT"}
-            </button>
-
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors outline-none focus:outline-none"
@@ -133,21 +98,6 @@ export default function Navigation() {
                   {link.name.toUpperCase()}
                 </a>
               ))}
-              <div className="pt-4 border-t border-slate-900">
-                <button
-                  onClick={() => {
-                    setEditMode(!editMode);
-                    setIsOpen(false);
-                  }}
-                  className={`block w-full py-3 rounded-xl text-center text-xs font-bold transition-all ${
-                    editMode 
-                      ? "bg-gradient-to-r from-teal-500 to-emerald-600 text-white" 
-                      : "bg-gradient-to-r from-brand-pink to-brand-purple text-white"
-                  }`}
-                >
-                  {editMode ? "✍️ FINISH EDITING" : "✍️ EDIT PORTFOLIO TEXT"}
-                </button>
-              </div>
             </div>
           </motion.div>
         )}

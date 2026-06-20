@@ -1,0 +1,6 @@
+{
+  "name": "AyumiHeartPanda Portfolio",
+  "description": "Official portfolio of AyumiHeartPanda - UGC Creator, Game Developer, 3D Modeler, SFX & GFX Artist.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
